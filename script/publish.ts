@@ -3,6 +3,8 @@
 import { $ } from "bun"
 import { existsSync } from "node:fs"
 import { join } from "node:path"
+import { resolveLatestFlag } from "./release-latest-flag"
+import { resolveReleaseVersion } from "./release-version.mjs"
 
 const PACKAGE_NAME = "oh-my-opencode"
 const bump = process.env.BUMP as "major" | "minor" | "patch" | undefined
@@ -10,15 +12,26 @@ const versionOverride = process.env.VERSION
 const republishMode = process.env.REPUBLISH === "true"
 const prepareOnly = process.argv.includes("--prepare-only")
 
-const PLATFORM_PACKAGES = [
+const PLATFORM_PACKAGE_IDS = [
   "darwin-arm64",
   "darwin-x64",
+  "darwin-x64-baseline",
   "linux-x64",
+  "linux-x64-baseline",
   "linux-arm64",
   "linux-x64-musl",
+  "linux-x64-musl-baseline",
   "linux-arm64-musl",
   "windows-x64",
-]
+  "windows-x64-baseline",
+  "windows-arm64",
+] as const
+
+const PLATFORM_PACKAGES = PLATFORM_PACKAGE_IDS.map((platform) => ({
+  platform,
+  packageName: `${PACKAGE_NAME}-${platform}`,
+  packageDir: `${PACKAGE_NAME}-${platform}`,
+}))
 
 console.log("=== Publishing oh-my-opencode (multi-package) ===\n")
 
@@ -65,8 +78,8 @@ async function updateAllPackageVersions(newVersion: string): Promise<void> {
   
   // Update optionalDependencies versions in main package.json
   let mainPkg = await Bun.file(mainPkgPath).text()
-  for (const platform of PLATFORM_PACKAGES) {
-    const pkgName = `oh-my-opencode-${platform}`
+  for (const platformPackage of PLATFORM_PACKAGES) {
+    const pkgName = platformPackage.packageName
     mainPkg = mainPkg.replace(
       new RegExp(`"${pkgName}": "[^"]+"`),
       `"${pkgName}": "${newVersion}"`
@@ -75,8 +88,8 @@ async function updateAllPackageVersions(newVersion: string): Promise<void> {
   await Bun.write(mainPkgPath, mainPkg)
   
   // Update each platform package.json
-  for (const platform of PLATFORM_PACKAGES) {
-    const pkgPath = new URL(`../packages/${platform}/package.json`, import.meta.url).pathname
+  for (const platformPackage of PLATFORM_PACKAGES) {
+    const pkgPath = new URL(`../packages/${platformPackage.packageDir}/package.json`, import.meta.url).pathname
     if (existsSync(pkgPath)) {
       await updatePackageVersion(pkgPath, newVersion)
     } else {
@@ -266,16 +279,16 @@ async function publishAllPackages(version: string): Promise<void> {
       const batchNum = Math.floor(i / BATCH_SIZE) + 1
       const totalBatches = Math.ceil(PLATFORM_PACKAGES.length / BATCH_SIZE)
       
-      console.log(`\n  Batch ${batchNum}/${totalBatches}: ${batch.join(", ")}`)
+      console.log(`\n  Batch ${batchNum}/${totalBatches}: ${batch.map((platformPackage) => platformPackage.platform).join(", ")}`)
       
-      const publishPromises = batch.map(async (platform) => {
-        const pkgDir = join(process.cwd(), "packages", platform)
-        const pkgName = `oh-my-opencode-${platform}`
+      const publishPromises = batch.map(async (platformPackage) => {
+        const pkgDir = join(process.cwd(), "packages", platformPackage.packageDir)
+        const pkgName = platformPackage.packageName
         
         console.log(`    Starting ${pkgName}...`)
         const result = await publishPackage(pkgDir, distTag, false, pkgName, version)
         
-        return { platform, pkgName, result }
+        return { platform: platformPackage.platform, pkgName, result }
       })
       
       const results = await Promise.all(publishPromises)
@@ -338,8 +351,8 @@ async function gitTagAndRelease(newVersion: string, notes: string[]): Promise<vo
   
   // Add all package.json files
   await $`git add package.json assets/oh-my-opencode.schema.json`
-  for (const platform of PLATFORM_PACKAGES) {
-    await $`git add packages/${platform}/package.json`.nothrow()
+  for (const platformPackage of PLATFORM_PACKAGES) {
+    await $`git add packages/${platformPackage.packageDir}/package.json`.nothrow()
   }
 
   const hasStagedChanges = await $`git diff --cached --quiet`.nothrow()
@@ -371,7 +384,9 @@ async function gitTagAndRelease(newVersion: string, notes: string[]): Promise<vo
   const releaseNotes = notes.length > 0 ? notes.join("\n") : "No notable changes"
   const releaseExists = await $`gh release view v${newVersion}`.nothrow()
   if (releaseExists.exitCode !== 0) {
-    await $`gh release create v${newVersion} --title "v${newVersion}" --notes ${releaseNotes}`
+    const publishedTags = await $`gh release list --exclude-drafts --limit 1000 --json tagName --jq '.[].tagName'`.text()
+    const latestFlag = resolveLatestFlag(newVersion, publishedTags.split("\n").filter(Boolean))
+    await $`gh release create v${newVersion} ${latestFlag} --title "v${newVersion}" --notes ${releaseNotes}`
   } else {
     console.log(`Release v${newVersion} already exists`)
   }
@@ -387,6 +402,8 @@ async function checkVersionExists(version: string): Promise<boolean> {
 }
 
 async function main() {
+  // The local preparation/publish entrypoint must respect the same reserved namespace.
+  if (versionOverride) resolveReleaseVersion(versionOverride, false)
   const previous = await fetchPreviousVersion()
   const newVersion = versionOverride || (bump ? bumpVersion(previous, bump) : bumpVersion(previous, "patch"))
   console.log(`New version: ${newVersion}\n`)
@@ -417,7 +434,7 @@ async function main() {
   await publishAllPackages(newVersion)
   await gitTagAndRelease(newVersion, notes)
 
-  console.log(`\n=== Successfully published ${PACKAGE_NAME}@${newVersion} (8 packages) ===`)
+  console.log(`\n=== Successfully published ${PACKAGE_NAME}@${newVersion} (${PLATFORM_PACKAGES.length + 1} packages) ===`)
 }
 
 main()

@@ -1,6 +1,13 @@
 # Manifesto
 
-The principles and philosophy behind Oh My OpenCode.
+The principles and philosophy behind oh-my-openagent (OmO).
+
+Project reality check:
+
+- Name: oh-my-openagent (renamed from oh-my-opencode; both npm packages still publish in tandem during the transition)
+- Domain: https://omo.dev (legacy https://ohmyopenagent.com, https://ohmyopencode.org, https://ulw.dev, https://ultrawork.ai, https://ultrawork.dev, https://ultrawork.engineer all 301 to omo.dev)
+- Building in Public: https://discord.gg/PUwSMR9XNk
+- Sisyphus Labs: https://sisyphuslabs.ai
 
 ---
 
@@ -20,7 +27,7 @@ When you find yourself:
 
 That's not "human-AI collaboration." That's the AI failing to do its job.
 
-**Oh My OpenCode is built on this premise**: Human intervention during agentic work is fundamentally a wrong signal. If the system is designed correctly, the agent should complete the work without requiring you to babysit it.
+**Oh My OpenAgent is built on this premise**: Human intervention during agentic work is fundamentally a wrong signal. If the system is designed correctly, the agent should complete the work without requiring you to babysit it.
 
 ---
 
@@ -56,7 +63,7 @@ That's a worthwhile investment when it means 10x, 20x, or 100x productivity gain
 **However:**
 
 Unnecessary token waste is not pursued. The system optimizes for:
-- Using cheaper models (Haiku, Flash) for simple tasks
+- Using cheaper, faster models for simple tasks (the `quick` category: GPT-6 Luna Fast, then DeepSeek V4.1 Flash and the other speed rungs)
 - Avoiding redundant exploration
 - Caching learnings across sessions
 - Stopping research when sufficient context is gathered
@@ -71,11 +78,11 @@ Token efficiency matters. But not at the cost of work quality or human cognitive
 
 Two approaches achieve this:
 
-### Approach 1: Prometheus (Interview Mode)
+### Approach 1: /ulw-plan (Interview Mode)
 
 You say: "I want to add authentication."
 
-Prometheus:
+The Ultrawork Planner:
 - Researches your codebase to understand existing patterns
 - Asks clarifying questions based on actual findings
 - Surfaces edge cases you hadn't considered
@@ -117,7 +124,7 @@ The output should be consistent. Not random, not surprising, not "creative" in w
 ### Continuous
 
 Work should survive interruptions:
-- Session crashes? Resume with `/start-work`
+- Session crash on a ulw-plan work plan? Resume with `/ulw-execute` (the main agent picks the work plan back up in the same session, tracked by boulder). Otherwise use `/handoff` for a new session or `/goal resume` for a paused goal
 - Need to step away? Progress is tracked
 - Multi-day project? Context is preserved
 
@@ -130,7 +137,7 @@ Just like you can assign a task to a capable team member and trust them to handl
 This means:
 - Clear acceptance criteria, verified independently
 - Self-correcting behavior when something goes wrong
-- Escalation (to Oracle, to user) only when truly needed
+- Escalation (to the architect consult, to the user) only when truly needed
 - Complete work, not "mostly done"
 
 ---
@@ -144,13 +151,13 @@ Human Intent → Agent Execution → Verified Result
           (intervention only on true failure)
 ```
 
-Everything in Oh My OpenCode is designed to make this loop work:
+Everything in Oh My OpenAgent is designed to make this loop work:
 
 | Feature | Purpose |
 |---------|---------|
-| Prometheus | Extract intent through intelligent interview |
-| Metis | Catch ambiguities before they become bugs |
-| Momus | Verify plans are complete before execution |
+| Ultrawork Planner | Extract intent through intelligent interview |
+| Plan Consultant | Catch ambiguities before they become bugs |
+| Plan Reviewer | Verify plans are complete before execution |
 | Orchestrator | Coordinate work without human micromanagement |
 | Todo Continuation | Force completion, prevent "I'm done" lies |
 | Category System | Route to optimal model without human decision |

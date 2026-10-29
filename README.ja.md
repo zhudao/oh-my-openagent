@@ -1,342 +1,114 @@
-> [!WARNING]
-> **一時的なお知らせ（今週）: メンテナー対応遅延のお知らせ**
->
-> コアメンテナーのQが負傷したため、今週は Issue/PR への返信とリリースが遅れる可能性があります。
-> ご理解とご支援に感謝します。
+[English](README.md) | [简体中文](README.zh-cn.md) | [日本語](README.ja.md) | [Русский](README.ru.md) | [한국어](README.ko.md) | [Español](README.es.md) | [Français](README.fr.md) | [Deutsch](README.de.md) | [Português (Brasil)](README.pt-br.md) | [Italiano](README.it.md)
 
 > [!NOTE]
->
-> [![Sisyphus Labs - Sisyphus is the agent that codes like your team.](./.github/assets/sisyphuslabs.png?v=2)](https://sisyphuslabs.ai)
-> > **私たちは、フロンティアエージェントの未来を定義するために、Sisyphusの完全なプロダクト版を構築しています。 <br />[こちら](https://sisyphuslabs.ai)からウェイトリストにご登録ください。**
+> **OmO ベータ: OmO ❤️ Pi**
+> `curl -fsSL https://get.omo.dev/install.sh | bash` でインストールしてください。メモリシステム、CodeMode、Anthropic サブスクリプションにすべて対応しています。
+> [![OmO Herdr DAG - live OmO workflow DAGs in a Herdr side pane](./.github/assets/omo-herdr-dag.png)](https://github.com/jc01rho/omo-herdr-dag)
+> *プロンプトに "mass ulw" と入れるだけ。あなたはもうグラフエンジニアリングのマスター。マルチモデルの ultracode を、より良いメモリシステムとともに。(右側のパネルは [omo-herdr-dag](https://github.com/jc01rho/omo-herdr-dag) です)*
+
+
+> **Sponsors**
+> 以下は私たちのスポンサーです。個人のサイドプロジェクトとして継続するための支援をいただいています。
+> | [<img alt="OpenGateway" src="./.github/assets/opengateway-logo.svg" width="156px" />](https://opengateway.ai/) | **[OpenGateway](https://opengateway.ai/)** は OmO のスポンサーです。複数のモデルプロバイダーをひとつの API で使える OpenAI 互換ゲートウェイです。オープンソースへのご支援に感謝します。 |
+> | :-----| :----- |
+
 
 > [!TIP]
 > 私たちと一緒に！
 >
-> | [<img alt="Discord link" src="https://img.shields.io/discord/1452487457085063218?color=5865F2&label=discord&labelColor=black&logo=discord&logoColor=white&style=flat-square" width="156px" />](https://discord.gg/PUwSMR9XNk) | [Discordコミュニティ](https://discord.gg/PUwSMR9XNk)に参加して、コントリビューターや他の `oh-my-opencode` ユーザーと交流しましょう。 |
+> | [<img alt="Discord link" src="https://img.shields.io/discord/1452487457085063218?color=5865F2&label=discord&labelColor=black&logo=discord&logoColor=white&style=flat-square" width="156px" />](https://discord.gg/PUwSMR9XNk) | [Discord コミュニティ](https://discord.gg/PUwSMR9XNk) に参加して、コントリビューターや他の OmO ユーザーと交流しましょう。 |
 > | :-----| :----- |
-> | [<img alt="X link" src="https://img.shields.io/badge/Follow-%40justsisyphus-00CED1?style=flat-square&logo=x&labelColor=black" width="156px" />](https://x.com/justsisyphus) | `oh-my-opencode` のニュースやアップデートは私のXアカウントで投稿されていましたが、 <br /> 誤って凍結されてしまったため、現在は [@justsisyphus](https://x.com/justsisyphus) が代わりにアップデートを投稿しています。 |
-> | [<img alt="GitHub Follow" src="https://img.shields.io/github/followers/code-yeongyu?style=flat-square&logo=github&labelColor=black&color=24292f" width="156px" />](https://github.com/code-yeongyu) | さらに多くのプロジェクトを見たい場合は、GitHubで [@code-yeongyu](https://github.com/code-yeongyu) をフォローしてください。 |
+> | [<img alt="X link" src="https://img.shields.io/badge/Follow-%40justsisyphus-00CED1?style=flat-square&logo=x&labelColor=black" width="156px" />](https://x.com/justsisyphus) | OmO のアップデートは以前、私の X アカウントで投稿されていましたが、 <br /> 誤って凍結されてしまったため、現在は [@justsisyphus](https://x.com/justsisyphus) が代わりにアップデートを投稿しています。 |
+> | [<img alt="GitHub Follow" src="https://img.shields.io/github/followers/code-yeongyu?style=flat-square&logo=github&labelColor=black&color=24292f" width="156px" />](https://github.com/code-yeongyu) | さらに多くのプロジェクトを見たい場合は、GitHub で [@code-yeongyu](https://github.com/code-yeongyu) をフォローしてください。 |
 
 <!-- <CENTERED SECTION FOR GITHUB DISPLAY> -->
 
 <div align="center">
 
-[![Oh My OpenCode](./.github/assets/hero.jpg)](https://github.com/code-yeongyu/oh-my-openagent#oh-my-opencode)
+<a href="https://omo.dev"><img src="./.github/assets/omo-icon-light.svg" alt="OmO" width="200" /></a>
 
-[![Preview](./.github/assets/omo.png)](https://github.com/code-yeongyu/oh-my-openagent#oh-my-opencode)
+# OmO
 
-</div>
-
-> これはステロイドを打ったコーディングです。一つのモデルのステロイドじゃない——薬局丸ごとです。
->
-> Claudeでオーケストレーションし、GPTで推論し、Kimiでスピードを出し、Geminiでビジョンを処理する。モデルはどんどん安くなり、どんどん賢くなる。特定のプロバイダーが独占することはない。私たちはその開かれた市場のために構築している。Anthropicの牢獄は素敵だ。だが、私たちはそこに住まない。
-
-<div align="center">
+**Your tool for real work. But it's an agent.**
 
 [![GitHub Release](https://img.shields.io/github/v/release/code-yeongyu/oh-my-openagent?color=369eff&labelColor=black&logo=github&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/releases)
-[![npm downloads](https://img.shields.io/npm/dt/oh-my-opencode?color=ff6b35&labelColor=black&style=flat-square)](https://www.npmjs.com/package/oh-my-opencode)
+[![downloads](https://img.shields.io/endpoint?url=https%3A%2F%2Fomo.dev%2Fapi%2Fdownloads&style=flat-square)](https://omo.dev)
 [![GitHub Contributors](https://img.shields.io/github/contributors/code-yeongyu/oh-my-openagent?color=c4f042&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/graphs/contributors)
-[![GitHub Forks](https://img.shields.io/github/forks/code-yeongyu/oh-my-openagent?color=8ae8ff&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/network/members)
 [![GitHub Stars](https://img.shields.io/github/stars/code-yeongyu/oh-my-openagent?color=ffcb47&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/stargazers)
-[![GitHub Issues](https://img.shields.io/github/issues/code-yeongyu/oh-my-openagent?color=ff80eb&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/issues)
 [![License](https://img.shields.io/badge/license-SUL--1.0-white?labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/blob/dev/LICENSE.md)
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/code-yeongyu/oh-my-openagent)
+[![Docs](https://img.shields.io/badge/docs-omo.dev-369eff?labelColor=black&logo=readthedocs&logoColor=white&style=flat-square)](https://omo.dev/docs)
 
-[English](README.md) | [한국어](README.ko.md) | [日本語](README.ja.md) | [简体中文](README.zh-cn.md)
 
 </div>
 
 <!-- </CENTERED SECTION FOR GITHUB DISPLAY> -->
 
-## レビュー
-
-> 「これのおかげで Cursor のサブスクリプションを解約しました。オープンソースコミュニティで信じられないことが起きています。」 - [Arthur Guiot](https://x.com/arthur_guiot/status/2008736347092382053?s=20)
-
-> 「Claude Codeが人間なら3ヶ月かかることを7日でやるとしたら、Sisyphusはそれを1時間でやってのけます。タスクが終わるまでひたすら働き続けます。まさに規律あるエージェントです。」 <br/>- B, Quant Researcher
-
-> 「Oh My Opencodeを使って、たった1日で8000個の eslint 警告を叩き潰しました。」 <br/>- [Jacob Ferrari](https://x.com/jacobferrari_/status/2003258761952289061)
-
-> 「Ohmyopencodeとralph loopを使って、45k行のtauriアプリを一晩でSaaSウェブアプリに変換しました。インタビューモードから始めて、私のプロンプトに対して質問や推奨事項を尋ねました。勝手に作業していくのを見るのは楽しかったし、今朝起きたらウェブサイトがほぼ動いているのを見て驚愕しました！」 - [James Hargis](https://x.com/hargabyte/status/2007299688261882202)
-
-> 「oh-my-opencodeを使ってください。もう二度と元には戻れません。」 <br/>- [d0t3ch](https://x.com/d0t3ch/status/2001685618200580503)
-
-> 「何がどうすごいのかまだ上手く言語化できないんですが、開発体験が完全に異次元に到達してしまいました。」 - [苔硯:こけすずり](https://x.com/kokesuzuri/status/2008532913961529372?s=20)
-
-> 「週末にマインクラフト/ソウルライクな化け物を作ろうと、open code、oh my opencode、supermemoryで実験中です。昼食後の散歩に行っている間に、しゃがむアニメーションを追加するように指示しておきました。[動画]」 - [MagiMetal](https://x.com/MagiMetal/status/2005374704178373023)
-
-> 「これをコアに取り込んで彼を採用すべきだ。マジで。これ、本当に、本当に、本当に良い。」 <br/>- Henning Kilset
-
-> 「彼を説得できるなら @yeon_gyu_kim を雇ってください。彼がopencodeに革命を起こしました。」 <br/>- [mysticaltech](https://x.com/mysticaltech/status/2001858758608376079)
-
-> 「Oh My OpenCodeはマジでヤバい」 - [YouTube - Darren Builds AI](https://www.youtube.com/watch?v=G_Snfh2M41M)
-
----
-
-# Oh My OpenCode
-
-最初はこれを「Claude Codeにステロイドを打ったもの」と呼んでいました。それは過小評価でした。
-
-一つのモデルに薬を盛るのではありません。カルテルを動かすんです。Claude、GPT、Kimi、Gemini——それぞれが得意なことを、並列で、止まらずに。モデルは毎月安くなっており、どのプロバイダーも独占できません。私たちはすでにその世界に生きています。
-
-その泥臭い作業をすべてやっておきました。すべてをテストし、実際に機能するものだけを残しました。
-
-OmOをインストールして、`ultrawork`とタイプしてください。狂ったようにコーディングしてください。
-
+OmO は、あなたのトークンを完成した成果に変える `omo` コマンドひとつです。1万を超えるソースのリサーチ、すっと理解できる資料、バックエンド、フロントエンド、コーディングまで対応します。[pi](https://github.com/badlogic/pi-mono) のフォークである senpi 上で動作し、以下の機能をすべて標準で備えています。
 
 ## インストール
 
-### 人間向け
-
-以下のプロンプトをコピーして、あなたのLLMエージェント（Claude Code、AmpCode、Cursorなど）に貼り付けてください：
-
-```
-Install and configure oh-my-opencode by following the instructions here:
-https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/heads/dev/docs/guide/installation.md
-```
-
-もしくは[インストールガイド](docs/guide/installation.md)を直接読んでもいいですが、マジでエージェントにやらせてください。人間は設定で必ずタイポします。
-
-### LLMエージェント向け
-
-インストールガイドを取得して、それに従ってください：
-
 ```bash
-curl -s https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/heads/dev/docs/guide/installation.md
+curl -fsSL https://get.omo.dev/install.sh | bash
+omo
 ```
 
----
+Windows では PowerShell で `irm https://get.omo.dev/install.ps1 | iex` を実行してください。OS と CPU に合ったネイティブの `omo` を `~/.local/bin` に入れ、リリースのチェックサムで検証します。パッケージマネージャーを使いたい場合は `bun add -g omo-ai`(または `npm i -g omo-ai`)で同じ OmO が入ります。パッケージ名は `omo-ai` です。npm にある `omo` パッケージは無関係の別物です。Windows CMD、`PATH` の直し方、更新とアンインストールは [omo.dev/docs/install](https://omo.dev/docs/install) で説明しています。
 
-## このREADMEをスキップする
+プロジェクトを開いて `omo` を実行し、やることを伝えてください。セットアップはそれだけです。
 
-ドキュメントを読む時代は終わりました。このテキストをエージェントに貼り付けるだけです：
+セッション中は `/thinking <level>` でモデルの思考の深さを設定できます（`/thinking` だけならレベルを選ぶ画面が開きます）。`Shift+Tab` はレベルを順に切り替え、`/efforts <level>` は強さの段階があるモデルで推論の強さを直接設定します。前の作業に戻るには `/resume`（または `/sessions`）で過去のセッションを開きます。シェルからは `omo -c` で直前のセッションを続け、`omo -r` でセッション一覧を開けます。ほかのコマンドは `/help` にまとまっています。
 
-```
-Read this and tell me why it's not just another boilerplate: https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/heads/dev/README.md
-```
+OpenCode 版や LazyCodex から移行する場合は、`omo setup` を一度実行してください。プロバイダーキー、カスタムプロバイダー、MCP サーバー、スキル、モデルの選択を引き継ぎます。続けて `omo doctor` を実行すると、お使いのプロバイダーでどのタスクカテゴリを実行できるか、旧インストールに何が残っているかを確認できます。詳しい手順は [OpenCode からの移行](docs/guide/migrating-from-opencode.md) をご覧ください。
 
-## ハイライト
+`omo update` でその場で更新できます。削除するには `bun remove -g omo-ai`(または `npm uninstall -g omo-ai`)を実行します。
 
-### 🪄 `ultrawork`
+## なぜ OmO か
 
-本当にこれを全部読んでるんですか？信じられない。
+**ultrawork。** この先を学ばなくても大丈夫です。難しそうな仕事なら、プロンプトに `ultrawork`(または `ulw`)と添えてください。エージェントは1行でも触れる前にコードベースを読み、計画を立て、各ステップを証明してから次へ進みます。実際の画面や環境で結果を確かめ、完了したら止まります。
 
-インストールして、`ultrawork`（または `ulw`）とタイプする。完了です。
+**何百ものエージェントを、キーワードひとつで。** `mass ulw` と入力すると、仕事全体がエージェントのグラフになります。数千のソースを読むディープリサーチ、機械学習パイプライン全体の構築、誰もやりたくないマイグレーションまで。部分ごとに合うモデルが並列で動き、完了と言う前に検証します。
 
-以下の内容、すべての機能、すべての最適化、何も知る必要はありません。ただ勝手に動きます。
+**Kibitzer。あなたのエージェントは、あなたと仕事を忘れません。** 記憶は markdown ファイルからなる git リポジトリに保存されます。小さく安価なモデルが高価なメインエージェントの隣に座り、あなたがしてきたことを読み取り、メインが同じ失敗を繰り返す前にそっと促します。あなたは同じ説明を繰り返さなくなります。
 
-以下のサブスクリプションだけでも、ultraworkは十分に機能します（このプロジェクトとは無関係であり、個人的な推奨にすぎません）：
-- [ChatGPT サブスクリプション ($20)](https://chatgpt.com/)
-- [Kimi Code サブスクリプション ($0.99) (*今月限定)](https://www.kimi.com/membership/pricing?track_id=5cdeca93-66f0-4d35-aabb-b6df8fcea328)
-- [GLM Coding プラン ($10)](https://z.ai/subscribe)
-- 従量課金（pay-per-token）の対象であれば、kimiやgeminiモデルを使っても費用はほとんどかかりません。
+**迷わないマルチモデル。** お気に入りのフロンティアモデルと、安価なモデルを混ぜて使えます。ログインするだけです。`/login` で Claude、ChatGPT、Kimi、GLM のサブスクリプションに対応しています。モデルごとに調整されたシステムプロンプトが付いてくるので、選び間違えることがありません。
 
-|       | 機能                                                     | 何をするのか                                                                                                                                                                                                                   |
-| :---: | :------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|   🤖   | **規律あるエージェント (Discipline Agents)**             | Sisyphusが Hephaestus、Oracle、Librarian、Exploreをオーケストレーションします。完全なAI開発チームが並列で動きます。                                                                                                            |
-|   ⚡   | **`ultrawork` / `ulw`**                                  | 一言でOK。すべてのエージェントがアクティブになり、終わるまで止まりません。                                                                                                                                                     |
-|   🚪   | **[IntentGate](https://factory.ai/news/terminal-bench)** | ユーザーの真の意図を分析してから分類・行動します。もう文字通りに誤解して的外れなことをすることはありません。                                                                                                                   |
-|   🔗   | **ハッシュベースの編集ツール**                           | `LINE#ID` のコンテンツハッシュですべての変更を検証します。stale-lineエラー0%。[oh-my-pi](https://github.com/can1357/oh-my-pi)にインスパイアされています。[ハーネス問題 →](https://blog.can.ac/2026/02/12/the-harness-problem/) |
-|   🛠️   | **LSP + AST-Grep**                                       | ワークスペース単位のリネーム、ビルド前の診断、ASTを考慮した書き換え。エージェントにIDEレベルの精度を提供します。                                                                                                               |
-|   🧠   | **バックグラウンドエージェント**                         | 5人以上の専門家を並列で投入します。コンテキストは軽く保ち、結果は準備ができ次第受け取ります。                                                                                                                                  |
-|   📚   | **組み込みMCP**                                          | Exa（Web検索）、Context7（公式ドキュメント）、Grep.app（GitHub検索）。常にオンです。                                                                                                                                           |
-|   🔁   | **Ralph Loop / `/ulw-loop`**                             | 自己参照ループ。100%完了するまで絶対に止まりません。                                                                                                                                                                           |
-|   ✅   | **Todoの強制執行**                                       | エージェントがサボる？システムが首根っこを掴んで戻します。あなたのタスクは必ず終わります。                                                                                                                                     |
-|   💬   | **コメントチェッカー**                                   | コメントからAI臭い無駄話を排除します。シニアエンジニアが書いたようなコードになります。                                                                                                                                         |
-|   🖥️   | **Tmux統合**                                             | 完全なインタラクティブターミナル。REPL、デバッガー、TUIアプリがすべてリアルタイムで動きます。                                                                                                                                  |
-|   🔌   | **Claude Code互換性**                                    | 既存のフック、コマンド、スキル、MCP、プラグイン？すべてここでそのまま動きます。                                                                                                                                                |
-|   🎯   | **スキル内蔵MCP**                                        | スキルが独自のMCPサーバーを持ち歩きます。コンテキストが肥大化しません。                                                                                                                                                        |
-|   📋   | **Prometheusプランナー**                                 | インタビューモードで、コードを1行触る前に戦略的な計画から立てます。                                                                                                                                                            |
-|   🔍   | **`/init-deep`**                                         | プロジェクト全体にわたって階層的な `AGENTS.md` ファイルを自動生成します。トークン効率とエージェントのパフォーマンスの両方を向上させます。                                                                                      |
+**高品質なスキルを、必要なものだけ。** あなたのモデルは賢いけれど、現実の問題を解くには知らないことがまだ多くあります。OmO はその欠けた知識をブラウザ操作も含めてスキルとして届け、いまの仕事に必要なものだけを読み込みます。
 
-### 規律あるエージェント (Discipline Agents)
+**それ以外も、すべてが crafted されています。** 独立したツール呼び出しは小さなプログラムひとつでまとめて実行されるので、20回の読み込みも1回の往復で済みます。壊れたツール引数は実行前に修復されます。ビルドやデプロイを待つことはポーリングではなく購読です。長い作業は何を確認したかを記録するので、セッションが再開しても止まった場所から続きます。設定、スキル、プロンプトはライブで再読み込みされます。
 
-<table><tr>
-<td align="center"><img src=".github/assets/sisyphus.png" height="300" /></td>
-<td align="center"><img src=".github/assets/hephaestus.png" height="300" /></td>
-</tr></table>
+## 設定
 
-**Sisyphus** (`claude-opus-4-6` / **`kimi-k2.5`** / **`glm-5`**) はあなたのメインのオーケストレーターです。計画を立て、専門家に委任し、攻撃的な並列実行でタスクを完了まで推進します。途中で投げ出すことはありません。
+こだわりのあるデフォルトを用意していますが、望めば調整できます。設定は `~/.omo/omo.jsonc` に保存され、プロジェクトごとに `.omo/omo.jsonc` を追加することもできます。最も近いファイルが優先されます。すべてのキーは [設定リファレンス](docs/reference/configuration.md) に載っています。
 
-**Hephaestus** (`gpt-5.3-codex`) はあなたの自律的なディープワーカーです。レシピではなく、目標を与えてください。手取り足取り教えなくても、コードベースを探索し、パターンを研究し、端から端まで実行します。*正当なる職人 (The Legitimate Craftsman).*
+## ドキュメント
 
-**Prometheus** (`claude-opus-4-6` / **`kimi-k2.5`** / **`glm-5`**) はあなたの戦略プランナーです。インタビューモードで動作し、コードに触れる前に質問をしてスコープを特定し、詳細な計画を構築します。
+- [omo.dev/docs](https://omo.dev/docs)
+- [OpenCode からの移行](docs/guide/migrating-from-opencode.md)
+- [設定リファレンス](docs/reference/configuration.md)
+- [機能一覧](docs/reference/features.md)
+- [コンピューター操作](docs/guide/computer-use.md)（実験的機能）
+- [Ultrawork マニフェスト](docs/manifesto.md)
 
-すべてのエージェントは、それぞれのモデルの強みに合わせてチューニングされています。手動でモデルを切り替える必要はありません。[詳しくはこちら →](docs/guide/overview.md)
+## レビュー
 
-> Anthropicが[私たちのせいでOpenCodeをブロックしました。](https://x.com/thdxr/status/2010149530486911014) だからこそHephaestusは「正当なる職人 (The Legitimate Craftsman)」と呼ばれているのです。皮肉を込めています。
->
-> Opusで最もよく動きますが、Kimi K2.5 + GPT-5.3 Codexの組み合わせだけでも、バニラのClaude Codeを軽く凌駕します。設定は一切不要です。
+> "It made me cancel my Cursor subscription. Unbelievable things are happening in the open source community." - [Arthur Guiot](https://x.com/arthur_guiot/status/2008736347092382053?s=20)
 
-### エージェントの��ーケストレーション
+> "If Claude Code does in 7 days what a human does in 3 months, OmO does it in 1 hour." <br/>- B, Quant Researcher
 
-Sisyphusがサブエージェントにタスクを委任する際、モデルを直接選ぶことはありません。**カテゴリー**を選びます。カテゴリーは自動的に適切なモデルにマッピングされます：
+> "You guys should pull this into core and recruit him. Seriously. It's really, really, really good." <br/>- Henning Kilset
 
-| カテゴリー           | 用途                                 |
-| :------------------- | :----------------------------------- |
-| `visual-engineering` | フロントエンド、UI/UX、デザイン      |
-| `deep`               | 自律的なリサーチと実行               |
-| `quick`              | 単一ファイルの変更、タイポの修正     |
-| `ultrabrain`         | ハードロジック、アーキテクチャの決定 |
+## 作者より
 
-エージェントがどのような種類の作業かを伝え、ハーネスが適切なモデルを選択します。あなたは何も触る必要はありません。
+エージェントからハンドルを取り戻さなければならないとき、それはチームワークではありません。システムの失敗です。OmO はこの考えの上に作られています。
 
-### Claude Code互換性
+あなたは望むことを伝えるだけです。エージェントがリサーチし、計画し、シニアエンジニアと見分けがつかないコードを書き、検証し、終わるまで進み続けます。本当に速さにつながるときはトークンを使い、簡単な部分は安価なモデルに回します。
 
-Claude Codeの設定を頑張りましたね。素晴らしい。
+私はこのプロジェクトの最も熱心なユーザーです。どのモデルのロジックが最も鋭いか。誰が最も良い文章を書くか。今週ほかの人たちは何をリリースしたか。その答えが集まる場所が OmO です。もっと良い方法があれば、PR を歓迎します。
 
-すべてのフック、コマンド、スキル、MCP、プラグインが、変更なしでここで動きます。プラグインも含めて完全互換です。
+目指すのは、存在を意識しなくなるエージェントです。スイッチを入れれば、明かりがつく。詳しくは [Ultrawork マニフェスト](docs/manifesto.md) をご覧ください。
 
-### エージェントのためのワールドクラスのツール
+ここで言及しているプロジェクトやモデルとは一切提携していません。Ultragoal と UltraQA のアイデアは [oh-my-codex](https://github.com/Yeachan-Heo/oh-my-codex) に由来し、OmO 向けにコンセプトから再実装したものです。
 
-LSP、AST-Grep、Tmux、MCPが、ただテープで貼り付けただけでなく、本当に「統合」されています。
+## 利用している企業
 
-- **LSP**: `lsp_rename`、`lsp_goto_definition`、`lsp_find_references`、`lsp_diagnostics`。エージェントにIDEレベルの精度を提供。
-- **AST-Grep**: 25言語に対応したパターン認識コード検索と書き換え。
-- **Tmux**: 完全なインタラクティブターミナル。REPL、デバッガー、TUIアプリ。エージェントがセッション内で動きます。
-- **MCP**: Web検索、公式ドキュメント、GitHubコード検索がすべて組み込まれています。
-
-### スキル内蔵MCP
-
-MCPサーバーがあなたのコンテキスト予算を食いつぶしています。私たちがそれを修正しました。
-
-スキルが独自のMCPサーバーを持ち歩きます。必要なときだけ起動し、終われば消えます。コンテキストウィンドウがきれいに保たれます。
-
-### ハッシュベースの編集 (Codes Better. Hash-Anchored Edits)
-
-ハーネスの問題は深刻です。エージェントが失敗する原因の大半はモデルではなく、編集ツールにあります。
-
-> *「どのツールも、モデルに変更したい行に対する安定して検証可能な識別子を提供していません... すべてのツールが、モデルがすでに見た内容を正確に再現することに依存しています。それができないとき——そして大抵はできないのですが——ユーザーはモデルのせいにします。」*
->
-> <br/>- [Can Bölük, ハーネス問題 (The Harness Problem)](https://blog.can.ac/2026/02/12/the-harness-problem/)
-
-[oh-my-pi](https://github.com/can1357/oh-my-pi) に触発され、**Hashline**を実装しました。エージェントが読むすべての行にコンテンツハッシュがタグ付けされて返されます：
-
-```
-11#VK| function hello() {
-22#XJ|   return "world";
-33#MB| }
-```
-
-エージェントはこのタグを参照して編集します。最後に読んだ後でファイルが変更されていた場合、ハッシュが一致せず、コードが壊れる前に編集が拒否されます。空白を正確に再現する必要もなく、間違った行を編集するエラー (stale-line) もありません。
-
-Grok Code Fast 1 で、成功率が **6.7% → 68.3%** に上昇しました。編集ツールを1つ変えただけで、です。
-
-### 深い初期化。`/init-deep`
-
-`/init-deep` を実行してください。階層的な `AGENTS.md` ファイルを生成します：
-
-```
-project/
-├── AGENTS.md              ← プロジェクト全体のコンテキスト
-├── src/
-│   ├── AGENTS.md          ← src 専用のコンテキスト
-│   └── components/
-│       └── AGENTS.md      ← コンポーネント専用のコンテキスト
-```
-
-エージェントが関連するコンテキストだけを自動で読み込みます。手動での管理はゼロです。
-
-### プランニング。Prometheus
-
-複雑なタスクですか？プロンプトを投げて祈るのはやめましょう。
-
-`/start-work` で Prometheus が呼び出されます。**本物のエンジニアのようにあなたにインタビューし**、スコープと曖昧さを特定し、コードに触れる前に検証済みの計画を構築します。エージェントは作業を始める前に、自分が何を作るべきか正確に理解します。
-
-### スキル (Skills)
-
-スキルは単なるプロンプトではありません。それぞれ以下をもたらします：
-
-- ドメインに最適化されたシステム命令
-- 必要なときに起動する組み込みMCPサーバー
-- スコープ制限された権限（エージェントが境界を越えないようにする）
-
-組み込み：`playwright`（ブラウザ自動化）、`git-master`（アトミックなコミット、リベース手術）、`frontend-ui-ux`（デザイン重視のUI）。
-
-独自に追加するには：`.opencode/skills/*/SKILL.md` または `~/.config/opencode/skills/*/SKILL.md`。
-
-**全機能を知りたいですか？** エージェント、フック、ツール、MCPなどの詳細は **[機能ドキュメント (Features)](docs/reference/features.md)** をご覧ください。
-
----
-
-> **背景のストーリーを知りたいですか？** なぜSisyphusは岩を転がすのか、なぜHephaestusは「正当なる職人」なのか、そして[オーケストレーションガイド](docs/guide/orchestration.md)をお読みください。
->
-> oh-my-opencodeは初めてですか？どのモデルを使うべきかについては、**[インストールガイド](docs/guide/installation.md#step-5-understand-your-model-setup)** で推奨モデルを確認してください。
-
-## アンインストール (Uninstallation)
-
-oh-my-opencodeを削除するには：
-
-1. **OpenCodeの設定からプラグインを削除する**
-
-   `~/.config/opencode/opencode.json`（または `opencode.jsonc`）を編集し、`plugin` 配列から `"oh-my-opencode"` を削除します：
-
-   ```bash
-   # jq を使用する場合
-   jq '.plugin = [.plugin[] | select(. != "oh-my-opencode")]' \
-       ~/.config/opencode/opencode.json > /tmp/oc.json && \
-       mv /tmp/oc.json ~/.config/opencode/opencode.json
-   ```
-
-2. **設定ファイルを削除する（オプション）**
-
-   ```bash
-   # ユーザー設定を削除
-   rm -f ~/.config/opencode/oh-my-opencode.json ~/.config/opencode/oh-my-opencode.jsonc
-
-   # プロジェクト設定を削除（存在する場合）
-   rm -f .opencode/oh-my-opencode.json .opencode/oh-my-opencode.jsonc
-   ```
-
-3. **削除の確認**
-
-   ```bash
-   opencode --version
-   # プラグインがロードされなくなっているはずです
-   ```
-
-## 著者の言葉
-
-**私たちの哲学が知りたいですか？** [Ultrawork 宣言](docs/manifesto.md)をお読みください。
-
----
-
-私は個人プロジェクトでLLMトークン代として2万4千ドル（約360万円）を使い果たしました。あらゆるツールを試し、設定をいじり倒しました。結果、OpenCodeの勝利でした。
-
-私がぶつかったすべての問題とその解決策が、このプラグインに焼き込まれています。インストールして、ただ使ってください。
-
-OpenCodeが Debian/Arch だとすれば、OmO は Ubuntu/[Omarchy](https://omarchy.org/) です。
-
-[AmpCode](https://ampcode.com) と [Claude Code](https://code.claude.com/docs/overview) ��ら多大な影響を受けています。機能を移植し、多くは改善しました。今もまだ構築中です。これは **Open**Code ですから。
-
-他のハーネスもマルチモデルのオーケストレーションを約束しています。しかし、私たちはそれを「実際に」出荷しています。安定性も備えて。言葉だけでなく、実際に機能するものとして。
-
-私がこのプロジェクトの最も強迫的なヘビーユーザーです：
-- どのモデルのロジックが最も鋭いか？
-- デバッグの神は誰か？
-- 最も優れた文章を書くのは誰か？
-- フロントエンドのエコシステムを支配しているのは誰か？
-- バックエンドの覇者は誰か？
-- 日常使いで最も速いのはどれか？
-- 競合他社は今何を出荷しているか？
-
-このプラグインは、それらの問いに対する蒸留物（Distillation）です。最高のものをそのまま使ってください。改善点が見つかりましたか？PRはいつでも歓迎します。
-
-**どのハーネスを使うかで悩むのはもうやめましょう。**
-**私が自らリサーチし、最高のものを盗んできて、ここに詰め込みます。**
-
-傲慢に聞こえますか？もっと良い方法があるならコントリビュートしてください。大歓迎です。
-
-言及されたどのプロジェクト/モデルとも関係はありません。単なる純粋な個人的実験の結果です。
-
-このプロジェクトの99%はOpenCodeで構築されました。私は実はTypeScriptをよく知りません。**しかし、このドキュメントは私が自らレビューし、書き直しました。**
-
-## 導入実績
-
-- [Indent](https://indentcorp.com)
-  - インフルエンサーマーケティングソリューション Spray、クロスボーダーコマースプラットフォーム vovushop、AIコマースレビューマーケティングソリューション vreview 制作
-- [Google](https://google.com)
-- [Microsoft](https://microsoft.com)
-- [ELESTYLE](https://elestyle.jp)
-  - マルチモバイル決済ゲートウェイ elepay、キャッシュレスソリューション向けモバイルアプリケーションSaaS OneQR 制作
-
-*素晴らしいヒーロー画像を提供してくれた [@junhoyeo](https://github.com/junhoyeo) 氏に特別な感謝を。*
+[Indent](https://indentcorp.com), makers of Spray (influencer marketing solution), vovushop (cross-border commerce platform) and vreview (AI commerce review marketing solution). [Google](https://google.com). [Microsoft](https://microsoft.com). [Vercel](https://vercel.com). [ELESTYLE](https://elestyle.jp), makers of elepay (multi-mobile payment gateway) and OneQR (mobile application SaaS for cashless solutions). [Deepgram](https://deepgram.com).

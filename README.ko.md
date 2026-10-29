@@ -1,336 +1,121 @@
-> [!WARNING]
-> **임시 공지 (이번 주): 메인테이너 대응 지연 안내**
->
-> 핵심 메인테이너 Q가 부상을 입어, 이번 주에는 이슈/PR 응답 및 릴리스가 지연될 수 있습니다.
-> 양해와 응원에 감사드립니다.
+[English](README.md) | [简体中文](README.zh-cn.md) | [日本語](README.ja.md) | [Русский](README.ru.md) | [한국어](README.ko.md) | [Español](README.es.md) | [Français](README.fr.md) | [Deutsch](README.de.md) | [Português (Brasil)](README.pt-br.md) | [Italiano](README.it.md)
+
+> [!NOTE]
+> **OmO 베타: OmO ❤️ Pi**
+> `curl -fsSL https://get.omo.dev/install.sh | bash`로 설치하세요. 메모리 시스템, CodeMode, Anthropic 구독까지 전부 지원됩니다.
+> [![OmO Herdr DAG - live OmO workflow DAGs in a Herdr side pane](./.github/assets/omo-herdr-dag.png)](https://github.com/jc01rho/omo-herdr-dag)
+> *프롬프트에 "mass ulw" 한 줄이면 끝. 당신도 그래프 엔지니어링의 마스터가 됩니다. 멀티 모델 ultracode, 더 나은 메모리 시스템과 함께. (우측의 패널은 [omo-herdr-dag](https://github.com/jc01rho/omo-herdr-dag) 입니다)*
+
+
+> **Sponsors**
+> 아래는 저희의 스폰서입니다. 개인 사이드 프로젝트를 지속하는 데 도움을 주고 있습니다.
+> | [<img alt="OpenGateway" src="./.github/assets/opengateway-logo.svg" width="156px" />](https://opengateway.ai/) | **[OpenGateway](https://opengateway.ai/)**가 OmO를 후원하고 있습니다. 여러 모델 제공사를 하나의 API로 쓸 수 있는 OpenAI 호환 게이트웨이입니다. 오픈소스를 응원해주셔서 감사합니다. |
+> | :-----| :----- |
 
 > [!TIP]
-> 저희와 함께 하세요!
+> 함께해요!
 >
-> | [<img alt="Discord link" src="https://img.shields.io/discord/1452487457085063218?color=5865F2&label=discord&labelColor=black&logo=discord&logoColor=white&style=flat-square" width="156px" />](https://discord.gg/PUwSMR9XNk) | [Discord 커뮤니티](https://discord.gg/PUwSMR9XNk)에 가입하여 기여자 및 다른 `oh-my-opencode` 사용자들과 소통하세요. |
+> | [<img alt="Discord link" src="https://img.shields.io/discord/1452487457085063218?color=5865F2&label=discord&labelColor=black&logo=discord&logoColor=white&style=flat-square" width="156px" />](https://discord.gg/PUwSMR9XNk) | 기여자와 OmO 사용자들을 만나려면 [Discord 커뮤니티](https://discord.gg/PUwSMR9XNk)로 오세요. |
 > | :-----| :----- |
-> | [<img alt="X link" src="https://img.shields.io/badge/Follow-%40justsisyphus-00CED1?style=flat-square&logo=x&labelColor=black" width="156px" />](https://x.com/justsisyphus) | `oh-my-opencode`에 대한 소식과 업데이트는 제 X 계정에 올라왔었지만, <br /> 실수로 정지된 이후에는 [@justsisyphus](https://x.com/justsisyphus)가 대신 업데이트를 게시하고 있습니다. |
-> | [<img alt="GitHub Follow" src="https://img.shields.io/github/followers/code-yeongyu?style=flat-square&logo=github&labelColor=black&color=24292f" width="156px" />](https://github.com/code-yeongyu) | 더 많은 프로젝트를 보려면 GitHub에서 [@code-yeongyu](https://github.com/code-yeongyu)를 팔로우하세요. |
+> | [<img alt="X link" src="https://img.shields.io/badge/Follow-%40justsisyphus-00CED1?style=flat-square&logo=x&labelColor=black" width="156px" />](https://x.com/justsisyphus) | 원래 제 X 계정에서 OmO 업데이트를 올렸는데, 계정이 실수로 정지되어 지금은 [@justsisyphus](https://x.com/justsisyphus)에서 대신 업데이트가 올라옵니다. |
+> | [<img alt="GitHub Follow" src="https://img.shields.io/github/followers/code-yeongyu?style=flat-square&logo=github&labelColor=black&color=24292f" width="156px" />](https://github.com/code-yeongyu) | 다른 프로젝트도 궁금하다면 GitHub에서 [@code-yeongyu](https://github.com/code-yeongyu)를 팔로우하세요. |
 
 <!-- <CENTERED SECTION FOR GITHUB DISPLAY> -->
 
 <div align="center">
 
-[![Oh My OpenCode](./.github/assets/hero.jpg)](https://github.com/code-yeongyu/oh-my-openagent#oh-my-opencode)
+<a href="https://omo.dev"><img src="./.github/assets/omo-icon-light.svg" alt="OmO" width="200" /></a>
 
-[![Preview](./.github/assets/omo.png)](https://github.com/code-yeongyu/oh-my-openagent#oh-my-opencode)
+# OmO
 
-</div>
-
-> Anthropic은 당신을 가두고 싶어 합니다. Claude Code는 멋진 감옥이지만, 여전히 감옥일 뿐이죠.
->
-> 우리는 여기서 그런 가두리를 하지 않습니다. Claude로 오케스트레이션하고, GPT로 추론하고, Kimi로 속도 내고, Gemini로 비전 처리한다. 미래는 하나의 승자를 고르는 게 아니라 전부를 오케스트레이션하는 거다. 모델은 매달 싸지고, 매달 똑똑해진다. 어떤 단일 프로바이더도 독재하지 못할 것이다. 우리는 그 열린 시장을 위해 만들고 있다.
-
-<div align="center">
+**Your tool for real work. But it's an agent.**
 
 [![GitHub Release](https://img.shields.io/github/v/release/code-yeongyu/oh-my-openagent?color=369eff&labelColor=black&logo=github&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/releases)
-[![npm downloads](https://img.shields.io/npm/dt/oh-my-opencode?color=ff6b35&labelColor=black&style=flat-square)](https://www.npmjs.com/package/oh-my-opencode)
+[![downloads](https://img.shields.io/endpoint?url=https%3A%2F%2Fomo.dev%2Fapi%2Fdownloads&style=flat-square)](https://omo.dev)
 [![GitHub Contributors](https://img.shields.io/github/contributors/code-yeongyu/oh-my-openagent?color=c4f042&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/graphs/contributors)
-[![GitHub Forks](https://img.shields.io/github/forks/code-yeongyu/oh-my-openagent?color=8ae8ff&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/network/members)
 [![GitHub Stars](https://img.shields.io/github/stars/code-yeongyu/oh-my-openagent?color=ffcb47&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/stargazers)
-[![GitHub Issues](https://img.shields.io/github/issues/code-yeongyu/oh-my-openagent?color=ff80eb&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/issues)
 [![License](https://img.shields.io/badge/license-SUL--1.0-white?labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/blob/dev/LICENSE.md)
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/code-yeongyu/oh-my-openagent)
+[![Docs](https://img.shields.io/badge/docs-omo.dev-369eff?labelColor=black&logo=readthedocs&logoColor=white&style=flat-square)](https://omo.dev/docs)
 
-[English](README.md) | [한국어](README.ko.md) | [日本語](README.ja.md) | [简体中文](README.zh-cn.md)
 
 </div>
 
 <!-- </CENTERED SECTION FOR GITHUB DISPLAY> -->
 
-## 리뷰
+OmO는 토큰을 끝난 일로 바꿔 주는 `omo` 명령 하나입니다. 만 개가 넘는 소스를 훑는 리서치, 한 번에 이해되는 발표자료, 백엔드, 프론트엔드, 코드까지 맡겨 보세요.
 
-> "이것 덕분에 Cursor 구독을 취소했습니다. 오픈소스 커뮤니티에서 믿을 수 없는 일들이 일어나고 있네요." - [Arthur Guiot](https://x.com/arthur_guiot/status/2008736347092382053?s=20)
-
-> "Claude Code가 인간이 3개월 걸릴 일을 7일 만에 한다면, Sisyphus는 1시간 만에 해냅니다. 작업이 끝날 때까지 그냥 계속 알아서 작동합니다. 이건 정말 규율이 잡힌 에이전트예요." <br/>- B, Quant Researcher
-
-> "Oh My Opencode로 하루 만에 eslint 경고 8000개를 해결했습니다." <br/>- [Jacob Ferrari](https://x.com/jacobferrari_/status/2003258761952289061)
-
-> "Ohmyopencode와 ralph loop를 써서 45k 라인짜리 tauri 앱을 하룻밤 만에 SaaS 웹앱으로 변환했어요. 인터뷰 모드로 시작해서, 제가 쓴 프롬프트에 대해 질문하고 추천을 부탁했죠. 일하는 걸 지켜보는 것도 재밌었고, 아침에 일어났더니 웹사이트가 대부분 돌아가고 있는 걸 보고 경악했습니다!" - [James Hargis](https://x.com/hargabyte/status/2007299688261882202)
-
-> "oh-my-opencode 쓰세요, 다시는 예전으로 못 돌아갑니다." <br/>- [d0t3ch](https://x.com/d0t3ch/status/2001685618200580503)
-
-> "뭐가 이렇게 대단한 건지 아직 정확하게 말로 표현하긴 어려운데, 개발 경험 자체가 완전히 다른 차원에 도달해버렸어요." - [苔硯:こけすずり](https://x.com/kokesuzuri/status/2008532913961529372?s=20)
-
-> "주말에 마인크래프트/소울라이크 같은 괴물 같은 걸 만들어보려고 open code, oh my opencode, supermemory로 실험 중입니다. 점심 먹고 산책 다녀오는 동안 앉기 애니메이션을 추가하라고 시켜뒀어요. [영상]" - [MagiMetal](https://x.com/MagiMetal/status/2005374704178373023)
-
-> "이걸 코어에 당겨오고 저 사람 스카우트해야 돼요. 진심으로. 이거 진짜, 진짜, 진짜 좋습니다." <br/>- Henning Kilset
-
-> "설득할 수만 있다면 @yeon_gyu_kim 채용하세요, 이 사람이 opencode를 혁명적으로 바꿨습니다." <br/>- [mysticaltech](https://x.com/mysticaltech/status/2001858758608376079)
-
-> "Oh My OpenCode는 진짜 미쳤다" - [YouTube - Darren Builds AI](https://www.youtube.com/watch?v=G_Snfh2M41M)
-
----
-
-# Oh My OpenCode
-
-Claude Code, Codex, 온갖 OSS 모델들 사이에서 헤매고 있나요. 워크플로우 설정하랴, 에이전트 디버깅하랴 피곤할 겁니다.
-
-우리가 그 삽질 다 해놨습니다. 모든 걸 테스트했고, 실제로 되는 것만 남겼습니다.
-
-OmO 설치하고. `ultrawork` 치세요. 끝.
-
-
+엔진은 [pi](https://github.com/badlogic/pi-mono)를 포크한 senpi이고, 아래 기능은 전부 기본으로 들어 있어요.
 
 ## 설치
 
-### 사람용
-
-다음 프롬프트를 복사해서 여러분의 LLM 에이전트(Claude Code, AmpCode, Cursor 등)에 붙여넣으세요:
-
-```
-Install and configure oh-my-opencode by following the instructions here:
-https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/heads/dev/docs/guide/installation.md
-```
-
-아니면 [설치 가이드](docs/guide/installation.md)를 직접 읽으셔도 되지만, 진심으로 그냥 에이전트한테 시키세요. 사람은 설정하다 꼭 오타 냅니다.
-
-### LLM 에이전트용
-
-설치 가이드를 가져와서 따라 하세요:
-
 ```bash
-curl -s https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/heads/dev/docs/guide/installation.md
+curl -fsSL https://get.omo.dev/install.sh | bash
+omo
 ```
 
----
+Windows는 PowerShell에서 `irm https://get.omo.dev/install.ps1 | iex`를 실행하세요. OS와 CPU에 맞는 네이티브 `omo`를 `~/.local/bin`에 설치하고 릴리스 체크섬으로 검증합니다. 패키지 매니저가 편하면 `bun add -g omo-ai`(또는 `npm i -g omo-ai`)로 같은 OmO를 설치할 수 있어요. 패키지 이름은 `omo-ai`예요. npm의 `omo` 패키지는 다른 사람이 만든 전혀 다른 물건입니다. Windows CMD, `PATH` 문제 해결, 업데이트와 삭제는 [omo.dev/docs/install](https://omo.dev/docs/install)에서 다룹니다.
 
-## 이 README 건너뛰기
+프로젝트를 열고 `omo`를 실행한 다음, 할 일을 말하세요. 설정은 그게 끝.
 
-문서 읽는 시대는 지났습니다. 그냥 이 텍스트를 에이전트한테 붙여넣으세요:
+세션 안에서 `/thinking <level>`로 모델이 얼마나 깊이 생각할지 정해요. `/thinking`만 치면 고르는 창이 뜨고, `Shift+Tab`은 레벨을 차례로 바꾸고, `/efforts <level>`은 강도 단계가 있는 모델에서 추론 강도를 바로 정합니다. 이전 작업을 이어 가려면 `/resume`(또는 `/sessions`)으로 지난 세션을 열면 돼요. 셸에서는 `omo -c`가 마지막 세션을 이어 가고 `omo -r`이 세션 목록을 엽니다. 나머지 명령은 `/help`에 다 있어요.
 
-```
-Read this and tell me why it's not just another boilerplate: https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/heads/dev/README.md
-```
+OpenCode 에디션이나 LazyCodex에서 넘어오셨다면 `omo setup`을 한 번 실행하세요. 프로바이더 키, 커스텀 프로바이더, MCP 서버, 스킬, 모델 선택까지 그대로 옮겨 옵니다.
 
-## 핵심 기능
+그다음 `omo doctor`가 지금 연결된 프로바이더로 어떤 작업 카테고리를 돌릴 수 있는지, 이전 설치가 무엇을 남겼는지 보여 줘요. 자세한 과정은 [OpenCode에서 옮겨 오기](docs/guide/migrating-from-opencode.md)에 있습니다.
 
-### 🪄 `ultrawork`
+업데이트는 `omo update`, 제거는 `bun remove -g omo-ai`(npm으로 깔았다면 `npm uninstall -g omo-ai`)입니다.
 
-진짜 이걸 다 읽고 계시나요? 대단하네요.
+## 왜 OmO인가
 
-설치하세요. `ultrawork` (또는 `ulw`) 치세요. 끝.
+**ultrawork.** 따로 공부할 필요는 없어요. 어려운 일이다 싶으면 프롬프트에 `ultrawork`(또는 `ulw`)를 붙이세요. 에이전트가 코드를 고치기 전에 코드베이스부터 읽고, 계획을 세우고, 단계마다 검증하고, 실제 화면에서 결과를 확인한 다음 멈춥니다.
 
-아래 내용들, 모든 기능, 모든 최적화, 전혀 알 필요 없습니다. 그냥 알아서 다 됩니다.
+**수백 개의 에이전트, 키워드 하나로.** `mass ulw`를 입력하면 일 전체가 에이전트 그래프가 됩니다. 수천 개 소스를 훑는 딥 리서치, 머신러닝 파이프라인, 아무도 하기 싫은 마이그레이션까지요. 조각마다 맞는 모델이 동시에 돌고, 확인을 거친 뒤에야 끝났다고 말합니다.
 
-다음 구독만 있어도 ultrawork는 충분히 잘 돌아갑니다 (본 프로젝트와 무관하며, 개인적인 추천일 뿐입니다):
-- [ChatGPT 구독 ($20)](https://chatgpt.com/)
-- [Kimi Code 구독 ($0.99) (*이번 달 한정)](https://www.kimi.com/membership/pricing?track_id=5cdeca93-66f0-4d35-aabb-b6df8fcea328)
-- [GLM Coding 요금제 ($10)](https://z.ai/subscribe)
-- 종량제(pay-per-token) 대상자라면 kimi와 gemini 모델을 써도 비용이 별로 안 나옵니다.
+**Kibitzer. 당신의 에이전트가 당신과 당신의 일을 잊지 않습니다.** 기억은 마크다운 파일로 된 git 저장소에 쌓여요. 작고 싼 모델이 비싼 메인 에이전트 옆에서 당신이 해 온 일을 다시 읽고, 같은 실수를 하기 전에 한마디 넣어 줍니다. 같은 설명을 두 번 할 일이 없죠.
 
-|       | 기능                                                     | 역할                                                                                                                                                                                                                     |
-| :---: | :------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|   🤖   | **기강 잡힌 에이전트 (Discipline Agents)**               | Sisyphus가 Hephaestus, Oracle, Librarian, Explore를 오케스트레이션합니다. 완전한 AI 개발팀이 병렬로 돌아갑니다.                                                                                                          |
-|   ⚡   | **`ultrawork` / `ulw`**                                  | 단어 하나면 됩니다. 모든 에이전트가 활성화되고 다 끝날 때까지 멈추지 않습니다.                                                                                                                                           |
-|   🚪   | **[IntentGate](https://factory.ai/news/terminal-bench)** | 사용자의 진짜 의도를 분석한 뒤 분류하거나 행동합니다. 더 이상 문자 그대로 오해해서 헛짓거리하는 일이 없습니다.                                                                                                           |
-|   🔗   | **해시 기반 편집 툴**                                    | `LINE#ID` 콘텐츠 해시로 모든 변경 사항을 검증합니다. stale-line 에러 0%. [oh-my-pi](https://github.com/can1357/oh-my-pi)에서 영감을 받았습니다. [하니스 프로블러 →](https://blog.can.ac/2026/02/12/the-harness-problem/) |
-|   🛠️   | **LSP + AST-Grep**                                       | 워크스페이스 단위 이름 변경, 빌드 전 진단, AST 기반 재작성. 에이전트에게 IDE급 정밀도를 제공합니다.                                                                                                                      |
-|   🧠   | **백그라운드 에이전트**                                  | 5명 이상의 전문가를 병렬로 투입합니다. 컨텍스트는 가볍게 유지하고 결과는 준비될 때 받습니다.                                                                                                                             |
-|   📚   | **기본 내장 MCP**                                        | Exa(웹 검색), Context7(공식 문서), Grep.app(GitHub 검색). 항상 켜져 있습니다.                                                                                                                                            |
-|   🔁   | **Ralph Loop / `/ulw-loop`**                             | 자기 참조 루프. 100% 완료될 때까지 절대 멈추지 않습니다.                                                                                                                                                                 |
-|   ✅   | **Todo 강제 집행**                                       | 에이전트가 딴짓한다고요? 시스템이 멱살 잡고 끌고 옵니다. 당신의 작업은 무조건 끝납니다.                                                                                                                                  |
-|   💬   | **주석 검사기**                                          | 주석에 AI 냄새나는 헛소리를 빼버립니다. 시니어 개발자가 짠 것 같은 코드가 됩니다.                                                                                                                                        |
-|   🖥️   | **Tmux 연동**                                            | 완전한 인터랙티브 터미널. REPL, 디버거, TUI 앱들 모두 실시간으로 돌아갑니다.                                                                                                                                             |
-|   🔌   | **Claude Code 호환성**                                   | 기존 훅, 명령어, 스킬, MCP, 플러그인? 전부 여기서 그대로 돌아갑니다.                                                                                                                                                     |
-|   🎯   | **스킬 내장 MCP**                                        | 스킬이 자기만의 MCP 서버를 들고 다닙니다. 컨텍스트가 부풀어 오르지 않습니다.                                                                                                                                             |
-|   📋   | **Prometheus 플래너**                                    | 인터뷰 모드로 코드 한 줄 만지기 전에 전략적인 계획부터 세웁니다.                                                                                                                                                         |
-|   🔍   | **`/init-deep`**                                         | 프로젝트 전체에 걸쳐 계층적인 `AGENTS.md` 파일을 자동 생성합니다. 토큰 효율과 에이전트 성능 둘 다 잡습니다.                                                                                                              |
+**고민 없는 멀티모델.** 좋아하는 프론티어 모델과 싼 모델을 섞어 쓰세요. `/login` 하나면 Claude, ChatGPT, Kimi, GLM 구독이 붙습니다. 모델마다 손본 시스템 프롬프트가 딸려 있어서 잘못 고를 일도 없어요.
 
-### 기강 잡힌 에이전트 (Discipline Agents)
+**고품질 스킬, 꼭 필요한 것만.** 모델은 똑똑해도 현실의 문제를 푸는 요령은 아직 모르는 게 많습니다. OmO는 그 빈자리를 브라우저 사용까지 포함한 스킬로 채우고, 지금 일에 필요한 것만 불러와요.
 
-<table><tr>
-<td align="center"><img src=".github/assets/sisyphus.png" height="300" /></td>
-<td align="center"><img src=".github/assets/hephaestus.png" height="300" /></td>
-</tr></table>
+**나머지도 전부 손봤습니다.** 서로 기다릴 필요 없는 툴 호출은 작은 프로그램 하나로 묶어 한 번에 돌려서, 파일 스무 개를 읽어도 왕복은 한 번이에요. 잘못 만든 툴 인자는 실행 전에 고쳐집니다.
 
-**Sisyphus** (`claude-opus-4-6` / **`kimi-k2.5`** / **`glm-5`**)는 당신의 메인 오케스트레이터입니다. 공격적인 병렬 실행으로 계획을 세우고, 전문가들에게 위임하며, 완료될 때까지 밀어붙입니다. 중간에 포기하는 법이 없습니다.
+빌드나 배포를 기다릴 때는 계속 들여다보지 않고 알림을 받습니다. 긴 작업은 무엇을 확인했는지 기록해 두니까 세션이 다시 떠도 멈춘 곳부터 이어가요. 설정, 스킬, 프롬프트는 바꾸는 즉시 반영됩니다.
 
-**Hephaestus** (`gpt-5.3-codex`)는 당신의 자율 딥 워커입니다. 레시피가 아니라 목표를 주세요. 베이비시터 없이 알아서 코드베이스를 탐색하고, 패턴을 연구하며, 끝에서 끝까지 전부 해냅니다. *진정한 장인(The Legitimate Craftsman).*
+## 설정
 
-**Prometheus** (`claude-opus-4-6` / **`kimi-k2.5`** / **`glm-5`**)는 당신의 전략 플래너입니다. 인터뷰 모드로 작동합니다. 코드 한 줄 만지기 전에 질문을 던져 스코프를 파악하고 상세한 계획부터 세웁니다.
+기본값에는 분명한 취향이 들어 있지만, 원하면 바꿀 수 있어요. 개인 설정은 `~/.omo/omo.jsonc`, 프로젝트 설정은 그 프로젝트의 `.omo/omo.jsonc`에 두고, 가까운 파일이 이깁니다.
 
-모든 에이전트는 해당 모델의 특장점에 맞춰 튜닝되어 있습니다. 수동으로 모델 바꿔가며 뻘짓하지 마세요. [더 알아보기 →](docs/guide/overview.md)
+모든 키는 [설정 레퍼런스](docs/reference/configuration.md)에 있습니다.
 
-> Anthropic이 [우리 때문에 OpenCode를 막아버렸습니다.](https://x.com/thdxr/status/2010149530486911014) 그래서 Hephaestus의 별명이 "진정한 장인(The Legitimate Craftsman)"인 겁니다. (어디서 많이 들어본 이름이죠?) 아이러니를 노렸습니다.
->
-> Opus에서 제일 잘 돌아가긴 하지만, Kimi K2.5 + GPT-5.3 Codex 조합만으로도 바닐라 Claude Code는 가볍게 바릅니다. 설정도 필요 없습니다.
+## 문서
 
-### 에이전트 오케스트레이션
+- [omo.dev/docs](https://omo.dev/docs)
+- [OpenCode에서 옮겨 오기](docs/guide/migrating-from-opencode.md)
+- [설정 레퍼런스](docs/reference/configuration.md)
+- [기능](docs/reference/features.md)
+- [컴퓨터 사용](docs/guide/computer-use.md) (실험적 기능)
+- [Ultrawork 선언문](docs/manifesto.md)
 
-Sisyphus가 하위 에이전트에게 일을 맡길 때, 모델을 직접 고르지 않습니다. **카테고리**를 고릅니다. 카테고리는 자동으로 올바른 모델에 매핑됩니다:
+## 리뷰
 
-| 카테고리             | 용도                      |
-| :------------------- | :------------------------ |
-| `visual-engineering` | 프론트엔드, UI/UX, 디자인 |
-| `deep`               | 자율 리서치 및 실행       |
-| `quick`              | 단일 파일 변경, 오타 수정 |
-| `ultrabrain`         | 하드 로직, 아키텍처 결정  |
+> "It made me cancel my Cursor subscription. Unbelievable things are happening in the open source community." - [Arthur Guiot](https://x.com/arthur_guiot/status/2008736347092382053?s=20)
 
-에이전트가 어떤 작업인지 말하면, 하네스가 알아서 적합한 모델을 꺼내옵니다. 당신은 손댈 게 없습니다.
+> "If Claude Code does in 7 days what a human does in 3 months, OmO does it in 1 hour." <br/>- B, Quant Researcher
 
-### Claude Code 호환성
+> "You guys should pull this into core and recruit him. Seriously. It's really, really, really good." <br/>- Henning Kilset
 
-Claude Code 열심히 세팅해두셨죠? 잘하셨습니다.
+## 제작자의 말
 
-모든 훅, 커맨드, 스킬, MCP, 플러그인이 여기서 그대로 돌아갑니다. 플러그인까지 완벽 호환됩니다.
+에이전트한테서 운전대를 다시 뺏어 와야 한다면 그건 협업이 아니에요. 시스템이 실패한 거죠. OmO는 그 생각에서 출발했습니다.
 
-### 에이전트를 위한 월드클래스 툴
+당신은 원하는 걸 말하면 됩니다. 조사하고, 계획하고, 시니어 엔지니어가 쓴 것과 구별이 안 되는 코드를 쓰고, 검증하고, 끝날 때까지 가는 건 에이전트 몫이에요. 토큰은 속도가 확실히 붙을 때 쓰고, 쉬운 일은 싼 모델에게 넘깁니다.
 
-LSP, AST-Grep, Tmux, MCP가 대충 테이프로 붙여놓은 게 아니라 진짜로 "통합"되어 있습니다.
+저는 이 프로젝트를 제일 집요하게 쓰는 사용자예요. 어느 모델이 논리가 제일 날카로운지, 누가 글을 제일 잘 쓰는지, 이번 주에 다들 뭘 내놨는지. 그 답이 모이는 곳이 OmO입니다. 더 나은 방법이 있으면 PR 주세요.
 
-- **LSP**: `lsp_rename`, `lsp_goto_definition`, `lsp_find_references`, `lsp_diagnostics`. 에이전트에게 IDE급 정밀도를 쥐어줍니다.
-- **AST-Grep**: 25개 언어를 지원하는 패턴 기반 코드 검색 및 재작성.
-- **Tmux**: 완전한 인터랙티브 터미널. REPL, 디버거, TUI 앱. 에이전트가 세션 안에서 움직입니다.
-- **MCP**: 웹 검색, 공식 문서, GitHub 코드 검색이 전부 내장되어 있습니다.
+목표는 있는 줄도 모르게 되는 에이전트. 스위치를 켜면 불이 들어오듯이요. 긴 버전은 [Ultrawork 선언문](docs/manifesto.md)에 있습니다.
 
-### 스킬 내장 MCP
+여기 나온 어떤 프로젝트나 모델과도 제휴 관계는 없습니다. Ultragoal과 UltraQA 아이디어는 [oh-my-codex](https://github.com/Yeachan-Heo/oh-my-codex)에서 가져와 OmO에 맞게 새로 구현했어요.
 
-MCP 서버들이 당신의 컨텍스트 예산을 다 잡아먹죠. 우리가 고쳤습니다.
+## 이런 곳의 전문가들이 씁니다
 
-스킬들이 자기만의 MCP 서버를 들고 다닙니다. 필요할 때만 켜서 쓰고 다 쓰면 사라집니다. 컨텍스트 창이 깔끔하게 유지됩니다.
-
-### 해시 기반 편집 (Codes Better. Hash-Anchored Edits)
-
-하네스 문제는 진짜 심각합니다. 에이전트가 실패하는 이유의 대부분은 모델 탓이 아니라 편집 툴 탓입니다.
-
-> *"어떤 툴도 모델에게 수정하려는 줄에 대한 안정적이고 검증 가능한 식별자를 제공하지 않습니다... 전부 모델이 이미 본 내용을 똑같이 재현해내길 기대하죠. 그게 안 될 때—그리고 보통 안 되는데—사용자들은 모델을 욕합니다."*
->
-> <br/>- [Can Bölük, 하네스 문제(The Harness Problem)](https://blog.can.ac/2026/02/12/the-harness-problem/)
-
-[oh-my-pi](https://github.com/can1357/oh-my-pi)에서 영감을 받아, **Hashline**을 구현했습니다. 에이전트가 읽는 모든 줄에는 콘텐츠 해시 태그가 붙어 나옵니다:
-
-```
-11#VK| function hello() {
-22#XJ|   return "world";
-33#MB| }
-```
-
-에이전트는 이 태그를 참조해서 편집합니다. 마지막으로 읽은 후 파일이 변경되었다면 해시가 일치하지 않아 코드가 망가지기 전에 편집이 거부됩니다. 공백을 똑같이 재현할 필요도 없고, 엉뚱한 줄을 수정하는 에러(stale-line)도 없습니다.
-
-Grok Code Fast 1 기준으로 성공률이 **6.7% → 68.3%** 로 올랐습니다. 오직 편집 툴 하나 바꿨을 뿐인데 말이죠.
-
-### 깊은 초기화. `/init-deep`
-
-`/init-deep`을 실행하세요. 계층적인 `AGENTS.md` 파일을 알아서 만들어줍니다:
-
-```
-project/
-├── AGENTS.md              ← 프로젝트 전체 컨텍스트
-├── src/
-│   ├── AGENTS.md          ← src 전용 컨텍스트
-│   └── components/
-│       └── AGENTS.md      ← 컴포넌트 전용 컨텍스트
-```
-
-에이전트가 알아서 관련된 컨텍스트만 쏙쏙 읽어갑니다. 수동으로 관리할 필요가 없습니다.
-
-### 플래닝. Prometheus
-
-복잡한 작업인가요? 대충 프롬프트 던지고 기도하지 마세요.
-
-`/start-work`를 치면 Prometheus가 호출됩니다. **진짜 엔지니어처럼 당신을 인터뷰하고**, 스코프와 모호한 점을 식별한 뒤, 코드 한 줄 만지기 전에 검증된 계획부터 세웁니다. 에이전트는 시작하기도 전에 자기가 뭘 만들어야 하는지 정확히 알게 됩니다.
-
-### 스킬 (Skills)
-
-스킬은 단순한 프롬프트 쪼가리가 아닙니다. 각각 다음을 포함합니다:
-
-- 도메인에 특화된 시스템 인스트럭션
-- 필요할 때만 켜지는 내장 MCP 서버
-- 스코프가 제한된 권한 (에이전트가 선을 넘지 않도록)
-
-기본 내장 스킬: `playwright` (브라우저 자동화), `git-master` (원자적 커밋, 리베이스 수술), `frontend-ui-ux` (디자인 중심 UI).
-
-직접 추가하려면: `.opencode/skills/*/SKILL.md` 또는 `~/.config/opencode/skills/*/SKILL.md`.
-
-**전체 기능이 궁금하신가요?** 에이전트, 훅, 툴, MCP 등 모든 디테일은 **[기능 문서 (Features)](docs/reference/features.md)** 를 확인하세요.
-
----
-
-> **비하인드 스토리가 궁금하신가요?** 왜 Sisyphus가 돌을 굴리는지, 왜 Hephaestus가 "진정한 장인"인지, 그리고 [오케스트레이션 가이드](docs/guide/orchestration.md)를 읽어보세요.
->
-> oh-my-opencode가 처음이신가요? 어떤 모델을 써야 할지 **[설치 가이드](docs/guide/installation.md#step-5-understand-your-model-setup)** 에서 추천 조합을 확인하세요.
-
-## 제거 (Uninstallation)
-
-oh-my-opencode를 지우려면:
-
-1. **OpenCode 설정에서 플러그인 제거**
-
-   `~/.config/opencode/opencode.json` (또는 `opencode.jsonc`)를 열고 `plugin` 배열에서 `"oh-my-opencode"`를 지우세요.
-
-   ```bash
-   # jq 사용 시
-   jq '.plugin = [.plugin[] | select(. != "oh-my-opencode")]' \
-       ~/.config/opencode/opencode.json > /tmp/oc.json && \
-       mv /tmp/oc.json ~/.config/opencode/opencode.json
-   ```
-
-2. **설정 파일 제거 (선택 사항)**
-
-   ```bash
-   # 사용자 설정 제거
-   rm -f ~/.config/opencode/oh-my-opencode.json ~/.config/opencode/oh-my-opencode.jsonc
-
-   # 프로젝트 설정 제거 (있는 경우)
-   rm -f .opencode/oh-my-opencode.json .opencode/oh-my-opencode.jsonc
-   ```
-
-3. **제거 확인**
-
-   ```bash
-   opencode --version
-   # 이제 플러그인이 로드되지 않아야 합니다
-   ```
-
-## 작가의 말
-
-**우리의 철학이 궁금하다면?** [Ultrawork 선언문](docs/manifesto.md)을 읽어보세요.
-
----
-
-저는 개인 프로젝트에 LLM 토큰 값으로만 2만 4천 달러(약 3천만 원)를 태웠습니다. 모든 툴을 다 써봤고, 설정이란 설정은 다 건드려봤습니다. 결론은 OpenCode가 이겼습니다.
-
-제가 부딪혔던 모든 문제와 그 해결책이 이 플러그인에 구워져 있습니다. 설치하고 그냥 쓰세요.
-
-OpenCode가 Debian/Arch라면, OmO는 Ubuntu/[Omarchy](https://omarchy.org/)입니다.
-
-[AmpCode](https://ampcode.com)와 [Claude Code](https://code.claude.com/docs/overview)의 영향을 아주 짙게 받았습니다. 기능들을 포팅했고, 대다수는 개선했습니다. 아직도 짓고 있는 중입니다. 이건 **Open**Code니까요.
-
-다른 하네스들도 멀티 모델 오케스트레이션을 약속합니다. 하지만 우리는 그걸 "진짜로" 내놨습니다. 안정성도 챙겼고요. 말로만이 아니라 실제로 돌아가는 기능들입니다.
-
-제가 이 프로젝트의 가장 병적인 헤비 유저입니다:
-- 어떤 모델의 로직이 가장 날카로운가?
-- 디버깅의 신은 누구인가?
-- 글은 누가 제일 잘 쓰는가?
-- 프론트엔드 생태계는 누가 지배하고 있는가?
-- 백엔드 끝판왕은 누구인가?
-- 데일리 드라이빙용으로 제일 빠른 건 뭔가?
-- 경쟁사들은 지금 뭘 출시하고 있는가?
-
-이 플러그인은 그 모든 질문의 정수(Distillation)입니다. 가장 좋은 것만 가져다 쓰세요. 개선할 점이 보인다고요? PR은 언제나 환영입니다.
-
-**어떤 하네스를 쓸지 고뇌하는 건 이제 그만두세요.**
-**제가 직접 리서치하고, 제일 좋은 것만 훔쳐 와서, 여기에 욱여넣겠습니다.**
-
-거만해 보이나요? 더 나은 방법이 있다면 기여하세요. 대환영입니다.
-
-언급된 어떤 프로젝트/모델과도 아무런 이해관계가 없습니다. 그냥 순수하게 개인적인 실험의 결과물입니다.
-
-이 프로젝트의 99%는 OpenCode로 만들어졌습니다. 전 사실 TypeScript를 잘 모릅니다. **하지만 이 문서는 제가 직접 리뷰하고 갈아엎었습니다.**
-
-## 함께하는 전문가들
-
-- [Indent](https://indentcorp.com)
-  - 인플루언서 마케팅 솔루션 Spray, 크로스보더 커머스 플랫폼 vovushop, AI 커머스 리뷰 마케팅 솔루션 vreview 제작
-- [Google](https://google.com)
-- [Microsoft](https://microsoft.com)
-- [ELESTYLE](https://elestyle.jp)
-  - 멀티 모바일 결제 게이트웨이 elepay, 캐시리스 솔루션을 위한 모바일 애플리케이션 SaaS OneQR 제작
-
-*멋진 히어로 이미지를 만들어주신 [@junhoyeo](https://github.com/junhoyeo)님께 특별히 감사드립니다.*
+[Indent](https://indentcorp.com), makers of Spray (influencer marketing solution), vovushop (cross-border commerce platform) and vreview (AI commerce review marketing solution). [Google](https://google.com). [Microsoft](https://microsoft.com). [Vercel](https://vercel.com). [ELESTYLE](https://elestyle.jp), makers of elepay (multi-mobile payment gateway) and OneQR (mobile application SaaS for cashless solutions). [Deepgram](https://deepgram.com).

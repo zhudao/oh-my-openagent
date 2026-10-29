@@ -1,0 +1,117 @@
+/// <reference types="bun-types" />
+
+import { describe, expect, it } from "bun:test"
+import type { LoadedSkill } from "../../../features/opencode-skill-loader/types"
+import { createMockSkill, createSkillTool, mockContext } from "./test-support"
+
+describe("skill tool - nativeSkills integration", () => {
+  it("keeps pre-seeded skills listed and leaves skills from core's own list to core, still loadable", async () => {
+    const tool = createSkillTool({
+      skills: [createMockSkill("seeded-skill")],
+      includeSkillsInDescription: true,
+      nativeSkills: {
+        all() {
+          return [{
+            name: "native-visible-skill",
+            description: "Native skill exposed from config",
+            location: "/external/skills/native-visible-skill/SKILL.md",
+            content: "Native visible skill body",
+          }]
+        },
+        get() { return undefined },
+        dirs() { return [] },
+      },
+    })
+
+    expect(tool.description).toContain("seeded-skill")
+    expect(tool.description).not.toContain("native-visible-skill")
+    const result = await tool.execute({ name: "native-visible-skill" }, mockContext)
+
+    expect(result).toContain("Native visible skill body")
+    expect(tool.description).toContain("seeded-skill")
+    expect(tool.description).not.toContain("native-visible-skill")
+  })
+
+  it("omits OpenCode-injected native skills from available_items because core already lists them", () => {
+    const tool = createSkillTool({
+      skills: [],
+      includeSkillsInDescription: true,
+      nativeSkills: {
+        all() {
+          return [
+            {
+              name: "opencode/customize-opencode",
+              description: "Qualified OpenCode customize entry",
+              location: "<built-in>",
+              content: "Qualified customize body",
+            },
+            {
+              name: "customize-opencode",
+              description: "Customize OpenCode",
+              location: "<built-in>",
+              content: "Customize body",
+            },
+          ]
+        },
+        get() { return undefined },
+        dirs() { return [] },
+      },
+    })
+
+    const description = tool.description
+
+    expect(description).not.toContain("<name>/customize-opencode</name>")
+    expect(description).not.toContain("<name>/opencode/customize-opencode</name>")
+    expect(description).not.toContain("Customize OpenCode")
+    expect(description).not.toContain("Qualified OpenCode customize entry")
+  })
+
+  it("merges native skills exposed by PluginInput.skills.all()", async () => {
+    const tool = createSkillTool({
+      skills: [],
+      nativeSkills: {
+        async all() {
+          return [{
+            name: "external-plugin-skill",
+            description: "Skill from config.skills.paths",
+            location: "/external/skills/external-plugin-skill/SKILL.md",
+            content: "External plugin skill body",
+          }]
+        },
+        async get() { return undefined },
+        async dirs() { return [] },
+      },
+    })
+
+    const result = await tool.execute({ name: "external-plugin-skill" }, mockContext)
+
+    expect(result).toContain("external-plugin-skill")
+    expect(result).toContain("External plugin skill body")
+  })
+
+  it("does not reintroduce disabled native skills from PluginInput.skills.all()", async () => {
+    const tool = createSkillTool({
+      directory: "/test",
+      skills: [],
+      disabledSkills: new Set(["blocked-native-skill"]),
+      includeSkillsInDescription: true,
+      nativeSkills: {
+        all() {
+          return [{
+            name: "blocked-native-skill",
+            description: "Blocked native skill from config.skills.paths",
+            location: "/external/skills/blocked-native-skill/SKILL.md",
+            content: "BYPASS_CONFIRMED",
+          }]
+        },
+        get() { return undefined },
+        dirs() { return [] },
+      },
+    })
+
+    expect(tool.description).not.toContain("blocked-native-skill")
+    await expect(tool.execute({ name: "blocked-native-skill" }, mockContext)).rejects.toThrow(
+      'Skill or command "blocked-native-skill" not found',
+    )
+  })
+})

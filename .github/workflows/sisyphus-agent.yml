@@ -27,7 +27,7 @@ jobs:
 
     steps:
       # Checkout with sisyphus-dev-ai's PAT
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           token: ${{ secrets.GH_PAT }}
           fetch-depth: 0
@@ -40,8 +40,14 @@ jobs:
 
       # gh CLI auth as sisyphus-dev-ai
       - name: Authenticate gh CLI as sisyphus-dev-ai
+        env:
+          # gh auth login refuses to run while GITHUB_TOKEN/GH_TOKEN are set
+          # ("The value of the GITHUB_TOKEN environment variable is being used
+          # for authentication"), so the PAT is passed under a different name
+          # and the conflicting variables are cleared for the login call only.
+          SISYPHUS_GH_PAT: ${{ secrets.GH_PAT }}
         run: |
-          echo "${{ secrets.GH_PAT }}" | gh auth login --with-token
+          echo "$SISYPHUS_GH_PAT" | env -u GITHUB_TOKEN -u GH_TOKEN gh auth login --with-token
           gh auth status
 
       - name: Ensure tmux is available (Linux)
@@ -57,10 +63,10 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
-          bun-version: latest
+          bun-version: "1.4.4"
 
       - name: Cache Bun dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: |
             ~/.bun/install/cache
@@ -72,7 +78,7 @@ jobs:
       # Build local oh-my-opencode
       - name: Build oh-my-opencode
         run: |
-          bun install
+          bun install --frozen-lockfile
           bun run build
 
       # Install OpenCode + configure local plugin + auth in single step
@@ -108,7 +114,7 @@ jobs:
           # Override plugin to use local file reference
           OPENCODE_JSON=~/.config/opencode/opencode.json
           REPO_PATH=$(pwd)
-          jq --arg path "file://$REPO_PATH/src/index.ts" '
+          jq --arg path "file://$REPO_PATH/packages/omo-opencode/src/index.ts" '
             .plugin = [.plugin[] | select(. != "oh-my-opencode")] + [$path]
           ' "$OPENCODE_JSON" > /tmp/oc.json && mv /tmp/oc.json "$OPENCODE_JSON"
 
@@ -176,14 +182,14 @@ jobs:
               "name": "OpenAI",
               "npm": "@ai-sdk/openai",
               "models": {
-                "gpt-5.2": {
-                  "id": "gpt-5.2",
-                  "name": "GPT-5.2",
+                "gpt-5.5": {
+                  "id": "gpt-5.5",
+                  "name": "GPT-5.5",
                   "limit": { "context": 128000, "output": 16000 }
                 },
-                "gpt-5.2-codex": {
-                  "id": "gpt-5.2-codex",
-                  "name": "GPT-5.2 Codex",
+                "gpt-5.5-codex": {
+                  "id": "gpt-5.5-codex",
+                  "name": "GPT-5.5 Codex",
                   "limit": { "context": 128000, "output": 32000 }
                 }
               }
@@ -343,57 +349,64 @@ jobs:
           COMMENT_ID_VAL: ${{ github.event.comment.id }}
           REPO: ${{ github.repository }}
         run: |
-          if [[ "$EVENT_NAME" == "issue_comment" ]]; then
-            ISSUE_NUM="$ISSUE_NUMBER"
-            AUTHOR="$COMMENT_AUTHOR"
-            COMMENT_ID="$COMMENT_ID_VAL"
+          {
+            if [[ "$EVENT_NAME" == "issue_comment" ]]; then
+              ISSUE_NUM="$ISSUE_NUMBER"
+              AUTHOR="$COMMENT_AUTHOR"
+              COMMENT_ID="$COMMENT_ID_VAL"
 
-            # Check if PR or Issue and get title
-            ISSUE_DATA=$(gh api "repos/$REPO/issues/${ISSUE_NUM}")
-            TITLE=$(echo "$ISSUE_DATA" | jq -r '.title')
-            if echo "$ISSUE_DATA" | jq -e '.pull_request' > /dev/null; then
-              echo "type=pr" >> $GITHUB_OUTPUT
-              echo "number=${ISSUE_NUM}" >> $GITHUB_OUTPUT
-            else
-              echo "type=issue" >> $GITHUB_OUTPUT
-              echo "number=${ISSUE_NUM}" >> $GITHUB_OUTPUT
+              # Check if PR or Issue and get title
+              ISSUE_DATA=$(gh api "repos/$REPO/issues/${ISSUE_NUM}")
+              TITLE=$(echo "$ISSUE_DATA" | jq -r '.title')
+              if echo "$ISSUE_DATA" | jq -e '.pull_request' > /dev/null; then
+                echo "type=pr"
+                echo "number=${ISSUE_NUM}"
+              else
+                echo "type=issue"
+                echo "number=${ISSUE_NUM}"
+              fi
+              echo "title=${TITLE}"
             fi
-            echo "title=${TITLE}" >> $GITHUB_OUTPUT
-          fi
 
-          echo "comment<<EOF" >> $GITHUB_OUTPUT
-          echo "$COMMENT_BODY" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-          echo "author=$AUTHOR" >> $GITHUB_OUTPUT
-          echo "comment_id=$COMMENT_ID" >> $GITHUB_OUTPUT
+            echo "comment<<EOF"
+            echo "$COMMENT_BODY"
+            echo "EOF"
+            echo "author=$AUTHOR"
+            echo "comment_id=$COMMENT_ID"
+          } >> "$GITHUB_OUTPUT"
 
       # Add :eyes: reaction (as sisyphus-dev-ai)
       - name: Add eyes reaction
         if: steps.context.outputs.comment_id != ''
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          REPOSITORY: ${{ github.repository }}
+          COMMENT_ID: ${{ steps.context.outputs.comment_id }}
         run: |
-          gh api "/repos/${{ github.repository }}/issues/comments/${{ steps.context.outputs.comment_id }}/reactions" \
+          gh api "/repos/${REPOSITORY}/issues/comments/${COMMENT_ID}/reactions" \
             -X POST -f content="eyes" || true
 
       - name: Add working label
         if: steps.context.outputs.number != ''
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          REPOSITORY: ${{ github.repository }}
+          CONTEXT_TYPE: ${{ steps.context.outputs.type }}
+          CONTEXT_NUMBER: ${{ steps.context.outputs.number }}
         run: |
           gh label create "sisyphus: working" \
-            --repo "${{ github.repository }}" \
+            --repo "$REPOSITORY" \
             --color "fcf2e1" \
             --description "Sisyphus is currently working on this" \
             --force || true
           
-          if [[ "${{ steps.context.outputs.type }}" == "pr" ]]; then
-            gh pr edit "${{ steps.context.outputs.number }}" \
-              --repo "${{ github.repository }}" \
+          if [[ "$CONTEXT_TYPE" == "pr" ]]; then
+            gh pr edit "$CONTEXT_NUMBER" \
+              --repo "$REPOSITORY" \
               --add-label "sisyphus: working" || true
           else
-            gh issue edit "${{ steps.context.outputs.number }}" \
-              --repo "${{ github.repository }}" \
+            gh issue edit "$CONTEXT_NUMBER" \
+              --repo "$REPOSITORY" \
               --add-label "sisyphus: working" || true
           fi
 
@@ -514,26 +527,43 @@ jobs:
         if: always()
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          REPOSITORY: ${{ github.repository }}
+          COMMENT_ID: ${{ steps.context.outputs.comment_id }}
+          CONTEXT_NUMBER: ${{ steps.context.outputs.number }}
+          CONTEXT_TYPE: ${{ steps.context.outputs.type }}
         run: |
-          if [[ -n "${{ steps.context.outputs.comment_id }}" ]]; then
-            REACTION_ID=$(gh api "/repos/${{ github.repository }}/issues/comments/${{ steps.context.outputs.comment_id }}/reactions" \
+          if [[ -n "$COMMENT_ID" ]]; then
+            REACTION_ID=$(gh api "/repos/${REPOSITORY}/issues/comments/${COMMENT_ID}/reactions" \
               --jq '.[] | select(.content == "eyes" and .user.login == "sisyphus-dev-ai") | .id' | head -1)
             if [[ -n "$REACTION_ID" ]]; then
-              gh api -X DELETE "/repos/${{ github.repository }}/reactions/${REACTION_ID}" || true
+              gh api -X DELETE "/repos/${REPOSITORY}/reactions/${REACTION_ID}" || true
             fi
 
-            gh api "/repos/${{ github.repository }}/issues/comments/${{ steps.context.outputs.comment_id }}/reactions" \
+            gh api "/repos/${REPOSITORY}/issues/comments/${COMMENT_ID}/reactions" \
               -X POST -f content="+1" || true
           fi
 
-          if [[ -n "${{ steps.context.outputs.number }}" ]]; then
-            if [[ "${{ steps.context.outputs.type }}" == "pr" ]]; then
-              gh pr edit "${{ steps.context.outputs.number }}" \
-                --repo "${{ github.repository }}" \
+          if [[ -n "$CONTEXT_NUMBER" ]]; then
+            if [[ "$CONTEXT_TYPE" == "pr" ]]; then
+              gh pr edit "$CONTEXT_NUMBER" \
+                --repo "$REPOSITORY" \
                 --remove-label "sisyphus: working" || true
             else
-              gh issue edit "${{ steps.context.outputs.number }}" \
-                --repo "${{ github.repository }}" \
+              gh issue edit "$CONTEXT_NUMBER" \
+                --repo "$REPOSITORY" \
                 --remove-label "sisyphus: working" || true
             fi
           fi
+
+      - name: Write job summary
+        if: always()
+        shell: bash
+        env:
+          JOB_SUMMARY_TITLE: Sisyphus agent run
+          JOB_SUMMARY_STATUS: ${{ job.status }}
+          JOB_SUMMARY_DETAILS: |
+            - Builds local oh-my-opencode.
+            - Configures OpenCode and runs the Sisyphus agent against the issue or PR context.
+            - Pushes agent changes when the working branch is safe to push.
+          JOB_SUMMARY_NEXT: Check setup/auth first, then the `Run oh-my-opencode` step and pushed branch output.
+        run: GITHUB_STEP_SUMMARY="$GITHUB_STEP_SUMMARY" bash .github/scripts/write-job-summary.sh
