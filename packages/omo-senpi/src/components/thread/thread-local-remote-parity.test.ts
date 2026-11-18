@@ -84,12 +84,12 @@ describe("B1: a thread no engine runs answers every tool the same way, and never
     const { run, id } = notRunning("local")
     expect(await run("thread_send", { thread: id, message: "still there?" })).toMatchObject({
       kind: "ok",
-      thread_id: id,
+      thread: id,
       delivery: { kind: "queued_offline" },
     })
     expect(await run("thread_read", { thread: id })).toMatchObject({
       kind: "ok",
-      thread_id: id,
+      thread: id,
       source: "session_jsonl",
       source_incomplete: true,
       items: [
@@ -112,21 +112,11 @@ const ENGINE_STATE = {
   endpoint_kind: "rpc_host",
   controls: ["send", "read"],
 }
-const SUMMARY_KEYS = [
-  "created_at",
-  "cwd",
-  "durableSessionId",
-  "link",
-  "name",
-  "sessionId",
-  "status",
-  "thread_id",
-  "updated_at",
-]
+const SUMMARY_KEYS = ["created_at", "cwd", "link", "name", "status", "thread", "updated_at"]
 const threadKeys = (result: ThreadToolResult) => {
   if (result.kind !== "ok" || !("thread" in result)) throw new Error(`expected a thread, got ${JSON.stringify(result)}`)
-  return Object.keys(result.thread)
-    .filter((key) => key !== "device")
+  return Object.keys(result)
+    .filter((key) => key !== "device" && key !== "kind" && key !== "deduplicated")
     .sort()
 }
 
@@ -147,10 +137,13 @@ describe("B2: thread_create answers one summary shape on both legs", () => {
     const b = account({
       openData: { sessionId: "rpc-9", state: { durableSessionId: "dur-new-on-b", ...ENGINE_STATE } },
     })
-    const here = await local.run("thread_create", {})
-    const there = await surface(b.remote).run("thread_create", { device: "studio" })
-    expect(here).toMatchObject({ kind: "ok", thread: { thread_id: "dur-created-here" } })
-    expect(there).toMatchObject({ kind: "ok", thread: { thread_id: "dur-new-on-b", device: "b" } })
+    const here = await local.run("thread_create", { name: "thread-local-remote-parity-150" })
+    const there = await surface(b.remote).run("thread_create", {
+      name: "thread-local-remote-parity-151",
+      device: "studio",
+    })
+    expect(here).toMatchObject({ kind: "ok", thread: "dur-created-here" })
+    expect(there).toMatchObject({ kind: "ok", thread: "dur-new-on-b", device: "b" })
     expect(threadKeys(here)).toEqual(SUMMARY_KEYS)
     expect(threadKeys(there)).toEqual(SUMMARY_KEYS)
   })
@@ -173,17 +166,18 @@ describe("B3: a thread created outside the caller's workspace says how to addres
       sessions.push(opened)
       return opened
     })
-    const created = await local.run("thread_create", { cwd: folder })
+    const created = await local.run("thread_create", { name: "thread-local-remote-parity-176", cwd: folder })
     expect(created).toMatchObject({
       kind: "ok",
-      thread: { thread_id: "dur-away", cwd: folder },
+      thread: "dur-away",
+      cwd: folder,
       workspace_scope: "outside",
     })
     expect(typeof (created as { scope_next_action?: unknown }).scope_next_action).toBe("string")
     expect(errorOf(await local.run("thread_read", { thread: "dur-away" }))?.code).toBe("scope_denied")
     expect(await local.run("thread_read", { thread: "dur-away", all_scope: true })).toMatchObject({
       kind: "ok",
-      thread_id: "dur-away",
+      thread: "dur-away",
     })
   })
 
@@ -192,8 +186,11 @@ describe("B3: a thread created outside the caller's workspace says how to addres
     async (leg) => {
       const created =
         leg === "local"
-          ? await surface(undefined).run("thread_create", {})
-          : await surface(account().remote).run("thread_create", { device: "studio" })
+          ? await surface(undefined).run("thread_create", { name: "thread-local-remote-parity-195" })
+          : await surface(account().remote).run("thread_create", {
+              name: "thread-local-remote-parity-196",
+              device: "studio",
+            })
       expect(created).toMatchObject({ kind: "ok" })
       expect(created).not.toHaveProperty("workspace_scope")
       expect(created).not.toHaveProperty("scope_next_action")
